@@ -194,7 +194,7 @@ class UploadWorker extends Command
      */
     protected function update_queue($iron, $queue_name)
     {
-        $this->info("<info>Creating or updating push queue <comment>$this->iron_worker_name</comment></info>");
+        $this->info("<info>Creating or updating push queue <comment>$queue_name</comment></info>");
         $iron->getIron()->ssl_verifypeer = $this->ssl_verifypeer;
         $iron->getIron()->updateQueue($queue_name, $this->getQueueOptions($queue_name));
         $this->line("<info>Push Queue <comment>$queue_name</comment> with subscriber <comment>$this->subscriber_url</comment> created or updated.</info>" . PHP_EOL);
