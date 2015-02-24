@@ -19,6 +19,7 @@ class UploadWorker extends Command
     protected $upload_all;
     protected $workers_dir = 'workers';
     protected $worker_params;
+    protected $ssl_verifypeer = true;
 
     public function __construct()
     {
@@ -68,6 +69,7 @@ class UploadWorker extends Command
             'token' => $token,
             'project_id' => $project_id
         ));
+        $this->worker->ssl_verifypeer = $this->ssl_verifypeer;
         if ($this->option('worker_name') == '*' and $this->option('exec_worker_file_name') == '*') {
             $this->upload_all = true;
             $workers = scandir(getcwd() . '/' . $this->workers_dir . '/');
@@ -193,6 +195,7 @@ class UploadWorker extends Command
     protected function update_queue($iron, $queue_name)
     {
         $this->info("<info>Creating or updating push queue <comment>$this->iron_worker_name</comment></info>");
+        $iron->getIron()->ssl_verifypeer = $this->ssl_verifypeer;
         $iron->getIron()->updateQueue($queue_name, $this->getQueueOptions($queue_name));
         $this->line("<info>Push Queue <comment>$queue_name</comment> with subscriber <comment>$this->subscriber_url</comment> created or updated.</info>" . PHP_EOL);
     }
